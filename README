@@ -1,0 +1,60 @@
+A lisp interpreter written in Python 
+
+History:
+I wanted to know how an interpreter works so Google got me a link to an article
+that explains how to write a Lisp interpret in Python.
+[http://norvig.com/lispy.html]
+I read it and tried to redo what was done there, amazing stuff :) 
+You'll find that my code is quite close to what's posted and that's because
+what I did here was simply trying to understand how something was being done
+and then doing it the same way myself.
+
+Requirements:
+A mini-lisp interpreter supporting the following:
+    1- define
+    2- quote
+    3- if
+    4- lambda
+    5- basic built-in functions such as math functions, simple arithmetic, list
+    functions, comparison functions
+    6- No error reporting whatsoever (I really did this for fun and as an exercise for a
+    bigger project so I didn't add error reporting)
+
+Design:
+1. Lexer:
+    Output: a list of lexemes
+    Simply read a line, make sure there are surrounding spaces after each
+    parenthesis, then do a split() which will return a lost of the lexemes
+    found.
+    Example:
+      input: (define x (+ 1 1))
+      output: ['(', 'define', 'x', '(', '+', '1', '1', ')', ')']
+2. Parser:
+    Output: a list of lists of expressions.
+    Whenever we encounter a ( we create a new list and recursively try to parse
+    what's in the parenthesis
+    If we encounter an int, a float or a string, we cast it to its appropriate
+    type and return it.
+    Example:
+      input: (define x (+ 1 1)) 
+      output: ['define', 'x', ['+', 1, 1]]  # Notice that the 1 is a number now
+3. Symbol table:
+    It's a dictionary we inherited from Python's dict but we added to it an
+    attribute called 'outer' that corresponds to the lexically outer block.
+    We search it 
+4. Eval:
+    - define adds a new symbol in the current symbol table
+    - quote returns whatever was after it
+    - if evaluates the conditional and returns either the then clause or the
+      else one depending on the result of the condition
+    - lambda: create a new symbol table where the current one is consider outer
+      to the newly created table.
+      Evaluate the lambda expression with the newly created table and
+      return(from the eval function) a python lambda object that takes the 
+      given arguments and returns (as a python lambda) the result of the
+      evaluation of the given Lisp lambda expression
+      
+License: BSD
+Contact info:
+        Adel Qodmani
+        mpcadel@gmail.com
