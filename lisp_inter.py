@@ -27,15 +27,6 @@
 
 import sys
 
-# Bugs:
-# 1- Cannot handle hex numbers
-# 2- the reserved words should NOT be case sensitive
-
-# To do:
-# 1- Add quote 
-# 2- Add function calls (done!) 
-#    (define test (lambda (x) (if (equal? x 0) 0 (+ x (test (- x 1))))))
-
 def main():
   read_eval_print()
 
@@ -44,7 +35,7 @@ def read_eval_print():
   table = build_table(table)
   try:
     while True:
-      expr = input("=>")
+      expr = input("=>").lower()
       tokens = lex(expr)
       parsed = parse(tokens)
       val = lisp_eval(parsed, table)
